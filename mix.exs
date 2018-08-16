@@ -15,13 +15,7 @@ defmodule Grub.MixProject do
       lockfile: "mix.lock.#{@target}",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps(),
-      preferred_cli_env: [
-        "firmware.dev": :dev,
-        "firmware.prod": :prod,
-        "firmware.dev.push": :dev,
-        "firmware.prod.push": :prod,
-      ]
+      deps: deps()
     ]
   end
 
@@ -43,21 +37,19 @@ defmodule Grub.MixProject do
   defp aliases do
     [
       loadconfig: [&bootstrap/1],
-      "firmware.dev": "cmd 'MIX_TARGET=rpi3 mix firmware'",
-      "firmware.prod": "cmd 'MIX_TARGET=rpi3 mix firmware'",
-      "firmware.dev.push": ["cmd 'MIX_TARGET=rpi3 ./upload.sh grub-dev.local'"],
-      "firmware.prod.push": ["cmd 'MIX_TARGET=rpi3 ./upload.sh grub.local'"]
+      "firmware.dev": "cmd 'MIX_ENV=dev MIX_TARGET=rpi3 mix firmware'",
+      "firmware.prod": "cmd 'MIX_ENV=prod MIX_TARGET=rpi3 mix firmware'",
+      "firmware.dev.push": ["cmd 'MIX_ENV=dev MIX_TARGET=rpi3 ./upload.sh grub-dev.local'"],
+      "firmware.prod.push": ["cmd 'MIX_ENV=prod MIX_TARGET=rpi3 ./upload.sh grub.local'"]
     ]
   end
-
-  defp default_target()
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:nerves, "~> 1.0", runtime: false},
       {:shoehorn, "~> 0.2"},
-      {:elixir_ale, "~> 1.0"}
+      {:elixir_ale, path: "/Users/jonjon/repos/elixir_ale"}
     ] ++ deps(@target)
   end
 

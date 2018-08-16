@@ -16,8 +16,10 @@
 # If the VM crashes, it generates a dump, let's ignore it too.
 erl_crash.dump
 
-.wlan_settings.json
+.wlan_settings
 
 /rel
 
 rootfs_overlay
+
+tmp

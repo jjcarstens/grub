@@ -11,7 +11,9 @@ config :nerves_init_gadget,
   node_host: :mdns_domain,
   ssh_console_port: 22
 
-%{"ssid" => ssid, "psk" => psk} = File.read!(".wlan_settings.json") |> Poison.decode!()
+[ssid, psk] = File.read!(".wlan_settings") |> String.split()
+
+config :nerves_network, regulatory_domain: "US"
 
 config :nerves_network, :default,
   wlan0: [

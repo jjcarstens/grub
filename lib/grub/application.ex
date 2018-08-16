@@ -8,25 +8,33 @@ defmodule Grub.Application do
   use Application
 
   def start(_type, _args) do
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: Grub.Supervisor]
-    Supervisor.start_link(children(@target), opts)
+    children(:default)
+    |> Enum.concat(children(@target))
+    |> Supervisor.start_link(strategy: :one_for_one, name: Grub.Supervisor)
   end
 
   # List all child processes to be supervised
-  def children("host") do
+  def children(:default) do
     [
-      # Starts a worker by calling: Grub.Worker.start_link(arg)
-      # {Grub.Worker, arg}
+      {Registry, keys: :unique, name: Registry.Zone}
     ]
+  end
+
+  def children("host") do
+    []
   end
 
   def children(_target) do
     [
-      # Starts a worker by calling: Grub.Worker.start_link(arg)
-      # {Grub.Worker, arg},
-      {Grub.Blinky, nil}
-    ]
+      {Grub.Blinky, nil},
+      {Grub.Controller, []}
+    ] ++ zones()
+  end
+
+  defp zones do
+    Application.get_env(:grub, :gpio_to_zone_mapping)
+    |> Enum.map(fn %{zone: zone, gpio: gpio} ->
+      %{id: "ZONE_#{zone}_GPIO_#{gpio}", start: {ElixirALE.GPIO, :start_link, [gpio, :output, [start_value: 1, name: {:via, Registry, {Registry.Zone, zone}}]]}}
+    end)
   end
 end
