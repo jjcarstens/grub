@@ -49,7 +49,7 @@ defmodule Grub.MixProject do
     [
       {:nerves, "~> 1.0", runtime: false},
       {:shoehorn, "~> 0.2"},
-      {:elixir_ale, path: "/Users/jonjon/repos/elixir_ale"}
+      {:elixir_ale, path: "/Users/jonjon/repos/elixir_ale"} # TODO: Move this to target deps
     ] ++ deps(@target)
   end
 
