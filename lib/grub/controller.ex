@@ -76,7 +76,30 @@ defmodule Grub.Controller do
     {:reply, read_zone(zone), state}
   end
 
-  def validate_zone_value(value) when value in [1, :off, false], do: {:ok, 1}
-  def validate_zone_value(value) when value in [0, :on, true], do: {:ok, 0}
-  def validate_zone_value(_value), do: {:error, %ArgumentError{message: "invalid zone value"}}
+  def handle_cast({:default_run, zone_time}, state) do
+    zones = available_zones() |> Keyword.values() |> Enum.reverse
+    Enum.reduce(zones, nil, fn zone, current ->
+      ensure_zone_toggled(current, :off)
+      ensure_zone_toggled(zone, :on)
+      :timer.sleep(zone_time)
+      zone
+    end)
+    |> ensure_zone_toggled(:off)
+
+    {:noreply, state}
+  end
+
+  defp ensure_zone_toggled(zone, toggle) when is_pid(zone) or is_integer(zone) do
+    case read_zone(zone) do
+      ^toggle -> :ok
+      _ ->
+        toggle_zone(zone, toggle)
+        ensure_zone_toggled(zone, toggle)
+    end
+  end
+  defp ensure_zone_toggled(_zone, _toggle), do: {:error, %ArgumentError{message: "No zone to toggle"}}
+
+  defp validate_zone_value(value) when value in [1, :off, false], do: {:ok, 1}
+  defp validate_zone_value(value) when value in [0, :on, true], do: {:ok, 0}
+  defp validate_zone_value(_value), do: {:error, %ArgumentError{message: "invalid zone value"}}
 end
