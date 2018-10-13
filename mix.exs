@@ -60,12 +60,13 @@ defmodule Grub.MixProject do
     [
       {:nerves_runtime, "~> 0.4"},
       {:nerves_init_gadget, "~> 0.4"},
-      {:nerves_leds, "~> 0.8"}
+      {:nerves_leds, "~> 0.8"},
+      {:nerves_uart, "~> 1.2"}
     ] ++ system(target)
   end
 
   defp system("rpi"), do: [{:nerves_system_rpi, "~> 1.0", runtime: false}]
-  defp system("rpi0"), do: [{:nerves_system_rpi0, "~> 1.0", runtime: false}]
+  defp system("rpi0"), do: [{:nerves_system_rpi0, "~> 1.0", runtime: false}, {:logger_backend_sqlite, "~> 2.0"}]
   defp system("rpi2"), do: [{:nerves_system_rpi2, "~> 1.0", runtime: false}]
   defp system("rpi3"), do: [{:nerves_system_rpi3, "~> 1.0", runtime: false}]
   defp system("bbb"), do: [{:nerves_system_bbb, "~> 1.0", runtime: false}]
