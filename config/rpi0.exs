@@ -3,7 +3,16 @@ use Mix.Config
 config :nerves_firmware_ssh,
   authorized_keys: [File.read!(Path.join(System.user_home!(), ".ssh/mx.pub"))]
 
-config :logger, backends: [RingLogger]
+config :logger, [
+  utc_log: true,
+  handle_otp_reports: true,
+  handle_sasl_reports: true,
+  backends: [RingLogger]
+]
+
+config :logger, LoggerBackendSqlite,
+  database: "/root/debug_logs.sqlite3",
+  max_logs: 9000
 
 config :nerves_init_gadget,
   ifname: "wlan0",
@@ -33,8 +42,7 @@ case Mix.env do
     ]
 
     config :nerves_init_gadget,
-      mdns_domain: System.get_env("MDNS_DOMAIN") || "grubd-rpi3.local"
-
+      mdns_domain: "grubd-rpi0.local"
 
   :prod ->
     config :grub, :gpio_to_zone_mapping, [

@@ -16,8 +16,6 @@ config :shoehorn,
   init: [:nerves_runtime, :nerves_init_gadget, :runtime_tools, :nerves_leds],
   app: Mix.Project.config()[:app]
 
-config :nerves_leds, names: [status: "led0"]
-
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 # Uncomment to use target specific configurations

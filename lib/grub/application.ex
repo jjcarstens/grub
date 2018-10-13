@@ -4,6 +4,7 @@ defmodule Grub.Application do
   @moduledoc false
 
   @target Mix.Project.config()[:target]
+  @leds %{"a" => "led0", "b" => "led1"}
 
   use Application
 
@@ -13,6 +14,15 @@ defmodule Grub.Application do
     |> Supervisor.start_link(strategy: :one_for_one, name: Grub.Supervisor)
   end
 
+  def start_phase(:start_led, _, _) do
+    if @target == "rpi3" do
+      Nerves.Led.set("led1", false) # turn off power LED
+      led = Map.get(@leds, Nerves.Runtime.KV.get("nerves_fw_active"))
+      Nerves.Led.set(led, true) # set LED according to A or B partition
+    end
+
+    :ok
+  end
   # List all child processes to be supervised
   def children(:default) do
     [
@@ -26,7 +36,6 @@ defmodule Grub.Application do
 
   def children(_target) do
     [
-      {Grub.Blinky, nil},
       {Grub.Controller, []}
     ] ++ zones()
   end
