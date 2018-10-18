@@ -36,7 +36,8 @@ defmodule Grub.Application do
 
   def children(_target) do
     [
-      {Grub.Controller, []}
+      {Grub.Controller, []},
+      {Grub.GarageController, %{}}
     ] ++ zones()
   end
 
