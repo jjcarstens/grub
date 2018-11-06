@@ -1,7 +1,7 @@
-defmodule Grub.GarageController do
+defmodule NAC.GarageController do
   use GenServer
   alias ElixirALE.GPIO
-  alias Grub.GarageDoor
+  alias NAC.GarageDoor
 
   def start_link(state) do
     GenServer.start_link(__MODULE__, state, name: __MODULE__)

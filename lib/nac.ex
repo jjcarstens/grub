@@ -1,6 +1,6 @@
-defmodule Grub do
+defmodule NAC do
   @moduledoc """
-  Documentation for Grub.
+  Documentation for NAC.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule Grub do
 
   ## Examples
 
-      iex> Grub.hello
+      iex> NAC.hello
       :world
 
   """

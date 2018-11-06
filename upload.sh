@@ -30,12 +30,12 @@ help() {
     echo
     echo "upload.sh [destination IP] [Path to .fw file]"
     echo
-    echo "Default destination IP is 'grub.local'"
+    echo "Default destination IP is 'nac.local'"
     echo "Default firmware bundle is the first .fw file in '_build/\$MIX_TARGET/\$MIX_ENV/nerves/images'"
     exit 1
 }
 
-[ -n "$DESTINATION" ] || DESTINATION=grub.local
+[ -n "$DESTINATION" ] || DESTINATION=nac.local
 [ -n "$MIX_TARGET" ] || MIX_TARGET=rpi3
 [ -n "$MIX_ENV" ] || MIX_ENV=prod
 [ -n "$FILENAME" ] || FILENAME=$(ls ./_build/$MIX_TARGET/$MIX_ENV/nerves/images/*.fw 2> /dev/null | head -n 1)

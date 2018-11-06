@@ -1,11 +1,11 @@
-defmodule Grub.MixProject do
+defmodule NAC.MixProject do
   use Mix.Project
 
   @target System.get_env("MIX_TARGET") || "host"
 
   def project do
     [
-      app: :grub,
+      app: :nac,
       version: "0.1.0",
       elixir: "~> 1.4",
       target: @target,
@@ -22,7 +22,7 @@ defmodule Grub.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {Grub.Application, []},
+      mod: {NAC.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -39,8 +39,8 @@ defmodule Grub.MixProject do
       loadconfig: [&bootstrap/1],
       "firmware.dev": "cmd 'MIX_ENV=dev MIX_TARGET=rpi3 mix firmware'",
       "firmware.prod": "cmd 'MIX_ENV=prod MIX_TARGET=rpi3 mix firmware'",
-      "firmware.dev.push": ["cmd 'MIX_ENV=dev MIX_TARGET=rpi3 ./upload.sh grub-dev.local'"],
-      "firmware.prod.push": ["cmd 'MIX_ENV=prod MIX_TARGET=rpi3 ./upload.sh grub.local'"]
+      "firmware.dev.push": ["cmd 'MIX_ENV=dev MIX_TARGET=rpi3 ./upload.sh nac-dev.local'"],
+      "firmware.prod.push": ["cmd 'MIX_ENV=prod MIX_TARGET=rpi3 ./upload.sh nac.local'"]
     ]
   end
 

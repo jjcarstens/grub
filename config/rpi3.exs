@@ -10,7 +10,7 @@ config :nerves_init_gadget,
   address_method: :dhcp,
   node_host: :mdns_domain,
   ssh_console_port: 22,
-  node_name: "grub"
+  node_name: "nac"
 
 [ssid, psk] = File.read!(".wlan_settings") |> String.split()
 
@@ -26,18 +26,18 @@ config :nerves_network, :default,
 
 case Mix.env do
   :dev ->
-    config :grub, :gpio_to_zone_mapping, [
+    config :nac, :gpio_to_zone_mapping, [
       %{zone: 1, gpio: 16},
       %{zone: 2, gpio: 20},
       %{zone: 3, gpio: 21}
     ]
 
     config :nerves_init_gadget,
-      mdns_domain: System.get_env("MDNS_DOMAIN") || "grubd-rpi3.local"
+      mdns_domain: System.get_env("MDNS_DOMAIN") || "nacd-rpi3.local"
 
 
   :prod ->
-    config :grub, :gpio_to_zone_mapping, [
+    config :nac, :gpio_to_zone_mapping, [
       %{zone: 1, gpio: 26},
       %{zone: 2, gpio: 19},
       %{zone: 3, gpio: 13},
@@ -45,5 +45,5 @@ case Mix.env do
     ]
 
     config :nerves_init_gadget,
-      mdns_domain: "grub.local"
+      mdns_domain: "nac.local"
 end
