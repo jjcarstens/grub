@@ -1,6 +1,8 @@
-# Grub
+# NAC
 
-**TODO: Add description**
+Nerves Automation Controller
+
+This is part of my `haus` project which utilizes many nerves devices around the house to control various sensors, switches, and hardware to automate the home
 
 ## Targets
 

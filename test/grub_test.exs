@@ -1,8 +1,8 @@
-defmodule GrubTest do
+defmodule NACTest do
   use ExUnit.Case
-  doctest Grub
+  doctest NAC
 
   test "greets the world" do
-    assert Grub.hello() == :world
+    assert NAC.hello() == :world
   end
 end

@@ -1,4 +1,4 @@
-defmodule Grub.Controller do
+defmodule NAC.SprinklerController do
   use GenServer
   alias ElixirALE.GPIO
 
@@ -16,7 +16,7 @@ defmodule Grub.Controller do
   ##
   # Client API
   #
-  def available_zones(node_or_supervisor \\ Grub.Supervisor) do
+  def available_zones(node_or_supervisor \\ NAC.Supervisor) do
     children = Supervisor.which_children(node_or_supervisor)
 
     for {<<"ZONE_", zone_str::bytes-size(1), _::binary>>, pid, _, _} <- children do
